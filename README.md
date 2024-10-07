@@ -39,7 +39,7 @@ Next, we can see the logs output from the pod running the app:
 
 From the Python script's logs we also see that the response code is `200` until the request 200, then we start receiving an error `502`.
 
-![2-high-load-python](./assets/3-high_load.png)
+![2-high-load-python](./assets/2-high_load_python.png)
 
 **RCA**: If we access the container that is running the Python application, we can see it is using a Limiter that will restrict the requests to 200 calls per minute for the root path `/`, causing the application to exit if we pass the threshold.
 
