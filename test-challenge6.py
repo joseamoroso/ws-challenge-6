@@ -53,7 +53,7 @@ def test_load_balance():
         print("Resquest #", i)
         for match in matches:
             print(match)
-        time.sleep(0.2)  
+        # time.sleep(0.2)  
 
 
 
