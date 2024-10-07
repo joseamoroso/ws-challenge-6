@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: challenge-app-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: challenge-app-canary
+  template:
+    metadata:
+      labels:
+        app: challenge-app-canary
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/whitestack/challenge-6/app:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: uploads
+          mountPath: /uploads
+        env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      volumes:
+      - name: uploads
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service-canary
+spec:
+  selector:
+    app: challenge-app-canary
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
